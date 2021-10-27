@@ -4,7 +4,14 @@ const empty = document.querySelector('#empty');
 const usernameElement = document.querySelector('#username');
 
 async function getUser() {
-    // TODO
+    fetch("/.auth/me")
+        .then(res => res.json())
+        .then(({ clientPrincipal } = {}) => {
+            const { userDetails = "test" } = clientPrincipal;
+            document.getElementById("username").textContent = 'hi, ' + userDetails + ' !';
+        }
+        );
+
 }
 
 async function updateTask() {
@@ -58,7 +65,7 @@ function generateTask(task) {
     const fragment = range.createContextualFragment(tmpl);
 
     fragment.querySelector('input').addEventListener('change', updateTask);
-    
+
     return fragment;
 }
 
